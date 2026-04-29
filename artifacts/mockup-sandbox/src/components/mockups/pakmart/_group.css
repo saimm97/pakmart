@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+.pakmart-theme {
+  --emerald-50: 160 84% 96%;
+  --emerald-100: 160 84% 88%;
+  --emerald-200: 160 84% 78%;
+  --emerald-300: 160 84% 65%;
+  --emerald-400: 160 84% 53%;
+  --emerald-500: 160 84% 39%;
+  --emerald-600: 160 84% 29%;
+  --emerald-700: 160 84% 23%;
+  --emerald-800: 160 84% 19%;
+  --emerald-900: 160 84% 16%;
+  
+  --saffron-50: 48 96% 89%;
+  --saffron-500: 38 92% 50%;
+  --saffron-600: 35 92% 40%;
+
+  --bg-surface: 40 33% 98%;
+  
+  font-family: 'Inter', sans-serif;
+  background-color: hsl(var(--bg-surface));
+  color: hsl(240 10% 15%);
+}
+
+.pakmart-theme .font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.pakmart-theme .bg-emerald-brand {
+  background-color: hsl(var(--emerald-600));
+  color: white;
+}
+
+.pakmart-theme .text-emerald-brand {
+  color: hsl(var(--emerald-600));
+}
+
+.pakmart-theme .border-emerald-brand {
+  border-color: hsl(var(--emerald-600));
+}
+
+.pakmart-theme .hover-bg-emerald-brand:hover {
+  background-color: hsl(var(--emerald-700));
+}
+
+.pakmart-theme .hover-text-emerald-brand:hover {
+  color: hsl(var(--emerald-600));
+}
+
+.pakmart-theme .bg-saffron-brand {
+  background-color: hsl(var(--saffron-500));
+  color: white;
+}
+
+.pakmart-theme .text-saffron-brand {
+  color: hsl(var(--saffron-600));
+}
+
+.pakmart-theme .mega-menu-panel {
+  display: none;
+}
+
+.pakmart-theme .mega-menu-trigger:hover .mega-menu-panel,
+.pakmart-theme .mega-menu-panel:hover {
+  display: block;
+}
