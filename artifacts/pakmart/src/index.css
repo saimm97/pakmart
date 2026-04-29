@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-emerald-50: 154 75% 97%;
+  --color-emerald-100: 154 75% 93%;
+  --color-emerald-200: 154 75% 85%;
+  --color-emerald-300: 154 75% 72%;
+  --color-emerald-400: 154 75% 55%;
+  --color-emerald-500: 154 75% 39%;
+  --color-emerald-600: 154 75% 31%;
+  --color-emerald-700: 154 75% 25%;
+  --color-emerald-800: 154 75% 20%;
+  --color-emerald-900: 154 75% 16%;
+  
+  --color-saffron-50: 38 92% 95%;
+  --color-saffron-500: 38 78% 57%;
+  --color-saffron-600: 38 78% 47%;
+
+  --font-sans: var(--app-font-sans);
+  --font-display: var(--app-font-serif);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 40 33% 97%; /* #FAF7F1 */
+  --foreground: 0 0% 10%; /* #1A1A1A */
+  --border: 0 0% 90%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --card-border: 0 0% 90%;
+  --sidebar: 40 33% 97%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-border: 0 0% 90%;
+  --sidebar-primary: 154 75% 31%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 154 75% 93%;
+  --sidebar-accent-foreground: 154 75% 31%;
+  --sidebar-ring: 154 75% 31%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 0 0% 90%;
+  
+  --primary: 154 75% 31%; /* Emerald 600 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 38 78% 57%; /* Saffron 500 */
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 95%;
+  --muted-foreground: 0 0% 42%; /* #6B6B6B */
+  --accent: 154 75% 97%;
+  --accent-foreground: 154 75% 31%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  --input: 0 0% 85%;
+  --ring: 154 75% 31%;
+
+  --app-font-sans: 'Inter', sans-serif;
+  --app-font-serif: 'Playfair Display', serif;
+  --app-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --radius: .5rem;
+}
+
+.dark {
+  --background: 0 0% 10%;
+  --foreground: 40 33% 97%;
+  --border: 0 0% 20%;
+  --card: 0 0% 12%;
+  --card-foreground: 40 33% 97%;
+  --card-border: 0 0% 20%;
+  --sidebar: 0 0% 10%;
+  --sidebar-foreground: 40 33% 97%;
+  --sidebar-border: 0 0% 20%;
+  --sidebar-primary: 154 75% 31%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 15%;
+  --sidebar-accent-foreground: 40 33% 97%;
+  --sidebar-ring: 154 75% 31%;
+  --popover: 0 0% 12%;
+  --popover-foreground: 40 33% 97%;
+  --popover-border: 0 0% 20%;
+  
+  --primary: 154 75% 45%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 38 78% 65%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+  --accent: 0 0% 15%;
+  --accent-foreground: 40 33% 97%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  --input: 0 0% 20%;
+  --ring: 154 75% 45%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+.pakmart-theme {
+  --emerald-50: 154 75% 97%;
+  --emerald-100: 154 75% 93%;
+  --emerald-200: 154 75% 85%;
+  --emerald-300: 154 75% 72%;
+  --emerald-400: 154 75% 55%;
+  --emerald-500: 154 75% 39%;
+  --emerald-600: 154 75% 31%;
+  --emerald-700: 154 75% 25%;
+  --emerald-800: 154 75% 20%;
+  --emerald-900: 154 75% 16%;
+  
+  --saffron-50: 38 92% 95%;
+  --saffron-500: 38 78% 57%;
+  --saffron-600: 38 78% 47%;
+
+  --bg-surface: 40 33% 97%;
+  --text-ink: 0 0% 10%;
+  --text-muted: 0 0% 42%;
+}
+
+.pakmart-theme .font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.pakmart-theme .font-mono-timer {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.pakmart-theme .bg-emerald-brand {
+  background-color: hsl(var(--emerald-600));
+  color: white;
+}
+
+.pakmart-theme .text-emerald-brand {
+  color: hsl(var(--emerald-600));
+}
+
+.pakmart-theme .border-emerald-brand {
+  border-color: hsl(var(--emerald-600));
+}
+
+.pakmart-theme .hover-bg-emerald-brand:hover {
+  background-color: hsl(var(--emerald-700));
+}
+
+.pakmart-theme .hover-text-emerald-brand:hover {
+  color: hsl(var(--emerald-700));
+}
+
+.pakmart-theme .bg-saffron-brand {
+  background-color: hsl(var(--saffron-500));
+  color: white;
+}
+
+.pakmart-theme .text-saffron-brand {
+  color: hsl(var(--saffron-600));
+}
+
+.pakmart-theme .mega-menu-panel {
+  display: none;
+}
+
+.pakmart-theme .mega-menu-trigger:hover .mega-menu-panel,
+.pakmart-theme .mega-menu-panel:hover {
+  display: block;
+}
+
+.pakmart-theme .hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.pakmart-theme .hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
