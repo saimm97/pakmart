@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "ggFeHMKxn7wPUX1fThMx9"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/hero-banner.png"
+type = "image"
+title = "Vibrant Pakistani bazaar sale banner"
+
+[[generated]]
+id = "fPaRWISvochXg_kE75KAm"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/promo-fashion.png"
+type = "image"
+title = "Pakistani women fashion banner"
+
+[[generated]]
+id = "gXKnjR-8qQpWuPqgiwn2q"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/product-khaadi.png"
+type = "image"
+title = "Unstitched lawn suit fabric"
+
+[[generated]]
+id = "lNgh97aPM5mt0VWub4ktw"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/product-pickle.png"
+type = "image"
+title = "Jar of mango pickle"
+
+[[generated]]
+id = "UBa-_iXidWcrNcKIgqlaH"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/product-phone.png"
+type = "image"
+title = "Modern sleek smartphone"
+
+[[generated]]
+id = "IGah-qoIhX-mLHPFzmfji"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/product-tea.png"
+type = "image"
+title = "Box of black tea"
+
+[[generated]]
+id = "C0qHv-h0XD6scHiBW5Dae"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/product-ac.png"
+type = "image"
+title = "Modern split air conditioner"
+
+[[generated]]
+id = "pLX-5Iaq2iw69Ln_twjYf"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/product-shoes.png"
+type = "image"
+title = "Stylish white sport sneakers"
+
+[[generated]]
+id = "AUcJt_w6aAmzptaevWZsI"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/cat-fashion.png"
+type = "image"
+title = "Racks of South Asian clothes"
+
+[[generated]]
+id = "r6l6acLjDL_hb7QQx2Lj9"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/cat-grocery.png"
+type = "image"
+title = "Spices and pantry staples"
