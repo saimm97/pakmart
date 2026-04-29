@@ -469,7 +469,7 @@ export function Home() {
                       <span>{product.sold} Sold</span>
                       <span>{product.stock} Available</span>
                     </div>
-                    <Progress value={(product.sold / (product.sold + product.stock)) * 100} className="h-1.5 bg-emerald-100" indicatorClassName="bg-saffron-500" />
+                    <Progress value={(product.sold / (product.sold + product.stock)) * 100} className="h-1.5 bg-emerald-100" />
                   </div>
                 </div>
               ))}
