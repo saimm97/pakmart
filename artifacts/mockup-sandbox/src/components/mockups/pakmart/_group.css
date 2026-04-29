@@ -1,30 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
 
 .pakmart-theme {
-  --emerald-50: 160 84% 96%;
-  --emerald-100: 160 84% 88%;
-  --emerald-200: 160 84% 78%;
-  --emerald-300: 160 84% 65%;
-  --emerald-400: 160 84% 53%;
-  --emerald-500: 160 84% 39%;
-  --emerald-600: 160 84% 29%;
-  --emerald-700: 160 84% 23%;
-  --emerald-800: 160 84% 19%;
-  --emerald-900: 160 84% 16%;
+  --emerald-50: 154 75% 97%;
+  --emerald-100: 154 75% 93%;
+  --emerald-200: 154 75% 85%;
+  --emerald-300: 154 75% 72%;
+  --emerald-400: 154 75% 55%;
+  --emerald-500: 154 75% 39%;
+  --emerald-600: 154 75% 31%; /* ~#0E5E3F primary */
+  --emerald-700: 154 75% 25%; /* ~#0A4A33 hover */
+  --emerald-800: 154 75% 20%;
+  --emerald-900: 154 75% 16%;
   
-  --saffron-50: 48 96% 89%;
-  --saffron-500: 38 92% 50%;
-  --saffron-600: 35 92% 40%;
+  --saffron-50: 38 92% 95%;
+  --saffron-500: 38 78% 57%; /* ~#E8A33D */
+  --saffron-600: 38 78% 47%;
 
-  --bg-surface: 40 33% 98%;
+  --bg-surface: 40 33% 97%; /* ~#FAF7F1 */
+  --text-ink: 0 0% 10%; /* ~#1A1A1A */
+  --text-muted: 0 0% 42%; /* ~#6B6B6B */
   
   font-family: 'Inter', sans-serif;
   background-color: hsl(var(--bg-surface));
-  color: hsl(240 10% 15%);
+  color: hsl(var(--text-ink));
 }
 
 .pakmart-theme .font-display {
   font-family: 'Playfair Display', serif;
+}
+
+.pakmart-theme .font-mono-timer {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
 }
 
 .pakmart-theme .bg-emerald-brand {
@@ -45,7 +52,7 @@
 }
 
 .pakmart-theme .hover-text-emerald-brand:hover {
-  color: hsl(var(--emerald-600));
+  color: hsl(var(--emerald-700));
 }
 
 .pakmart-theme .bg-saffron-brand {
@@ -64,4 +71,13 @@
 .pakmart-theme .mega-menu-trigger:hover .mega-menu-panel,
 .pakmart-theme .mega-menu-panel:hover {
   display: block;
+}
+
+/* Hide scrollbar for category browser */
+.pakmart-theme .hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.pakmart-theme .hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

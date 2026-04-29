@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "ggFeHMKxn7wPUX1fThMx9"
@@ -60,3 +59,21 @@ id = "r6l6acLjDL_hb7QQx2Lj9"
 uri = "file://artifacts/mockup-sandbox/public/images/pakmart/cat-grocery.png"
 type = "image"
 title = "Spices and pantry staples"
+
+[[outputs]]
+id = "Mf4IW0nhzVDq0wxP5jGwU"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/summer-edit.jpg"
+type = "image"
+title = "Stylish summer dress folded neatly, warm aesthetic, high fashion retail photography"
+
+[[outputs]]
+id = "M1ZgafuhtFshfdtsEb3M_"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/promo-band-1.jpg"
+type = "image"
+title = "Traditional Pakistani jewelry and accessories, beautiful composition, rich warm lighting"
+
+[[outputs]]
+id = "JZfPPpuUQ2PKcnW1RoNgT"
+uri = "file://artifacts/mockup-sandbox/public/images/pakmart/promo-band-2.jpg"
+type = "image"
+title = "Premium cosmetics and skincare products beautifully arranged, minimalist luxury lighting"
