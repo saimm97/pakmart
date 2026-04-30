@@ -55,12 +55,17 @@ export function Checkout() {
     }
   });
 
+  React.useEffect(() => {
+    if (cart && cart.items.length === 0) {
+      setLocation("/cart");
+    }
+  }, [cart, setLocation]);
+
   if (isLoading || !cart) {
     return <div className="min-h-[50vh] flex items-center justify-center text-emerald-600 font-display text-xl animate-pulse">Loading secure checkout...</div>;
   }
 
   if (cart.items.length === 0) {
-    setLocation("/cart");
     return null;
   }
 
