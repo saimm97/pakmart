@@ -40,20 +40,23 @@
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-destructive-border: var(--destructive-border);
 
-  --color-emerald-50: 154 75% 97%;
-  --color-emerald-100: 154 75% 93%;
-  --color-emerald-200: 154 75% 85%;
-  --color-emerald-300: 154 75% 72%;
-  --color-emerald-400: 154 75% 55%;
-  --color-emerald-500: 154 75% 39%;
-  --color-emerald-600: 154 75% 31%;
-  --color-emerald-700: 154 75% 25%;
-  --color-emerald-800: 154 75% 20%;
-  --color-emerald-900: 154 75% 16%;
-  
-  --color-saffron-50: 38 92% 95%;
-  --color-saffron-500: 38 78% 57%;
-  --color-saffron-600: 38 78% 47%;
+  --color-emerald-50: hsl(154 75% 97%);
+  --color-emerald-100: hsl(154 75% 93%);
+  --color-emerald-200: hsl(154 75% 85%);
+  --color-emerald-300: hsl(154 75% 72%);
+  --color-emerald-400: hsl(154 75% 55%);
+  --color-emerald-500: hsl(154 75% 39%);
+  --color-emerald-600: hsl(154 75% 31%);
+  --color-emerald-700: hsl(154 75% 25%);
+  --color-emerald-800: hsl(154 75% 20%);
+  --color-emerald-900: hsl(154 75% 16%);
+
+  --color-saffron-50: hsl(38 92% 95%);
+  --color-saffron-100: hsl(38 92% 90%);
+  --color-saffron-400: hsl(38 78% 65%);
+  --color-saffron-500: hsl(38 78% 57%);
+  --color-saffron-600: hsl(38 78% 47%);
+  --color-saffron-700: hsl(38 78% 37%);
 
   --font-sans: var(--app-font-sans);
   --font-display: var(--app-font-serif);
