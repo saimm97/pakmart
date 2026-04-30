@@ -8,6 +8,7 @@ import dealsRouter from "./deals";
 import testimonialsRouter from "./testimonials";
 import cartRouter from "./cart";
 import ordersRouter from "./orders";
+import paymentsRouter from "./payments";
 
 const router: IRouter = Router();
 
@@ -19,6 +20,7 @@ router.use(productsRouter);
 router.use(dealsRouter);
 router.use(testimonialsRouter);
 router.use(cartRouter);
+router.use(paymentsRouter);
 router.use(ordersRouter);
 
 export default router;
