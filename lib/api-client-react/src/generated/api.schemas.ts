@@ -118,7 +118,6 @@ export interface UpdateCartItemBody {
 }
 
 export interface OrderItem {
-  id: number;
   productId: number;
   productSlug: string;
   productName: string;
@@ -149,6 +148,63 @@ export interface CreateOrderBody {
   paymentMethod: CreateOrderBodyPaymentMethod;
   /** @nullable */
   notes?: string | null;
+  /** @nullable */
+  transactionId?: string | null;
+  /** @nullable */
+  cardBrand?: string | null;
+  /** @nullable */
+  cardLast4?: string | null;
+  /** @nullable */
+  paymentMobile?: string | null;
+}
+
+export interface ProcessCardPaymentBody {
+  cardNumber: string;
+  /**
+   * @minimum 1
+   * @maximum 12
+   */
+  expMonth: number;
+  expYear: number;
+  cvv: string;
+  cardholderName: string;
+  /** Amount in PKR (integer) */
+  amount: number;
+}
+
+export type ProcessMobilePaymentBodyProvider =
+  (typeof ProcessMobilePaymentBodyProvider)[keyof typeof ProcessMobilePaymentBodyProvider];
+
+export const ProcessMobilePaymentBodyProvider = {
+  easypaisa: "easypaisa",
+  jazzcash: "jazzcash",
+} as const;
+
+export interface ProcessMobilePaymentBody {
+  provider: ProcessMobilePaymentBodyProvider;
+  mobileNumber: string;
+  amount: number;
+}
+
+export type PaymentResultStatus =
+  (typeof PaymentResultStatus)[keyof typeof PaymentResultStatus];
+
+export const PaymentResultStatus = {
+  succeeded: "succeeded",
+  failed: "failed",
+} as const;
+
+export interface PaymentResult {
+  success: boolean;
+  transactionId: string;
+  status: PaymentResultStatus;
+  amount: number;
+  /** @nullable */
+  cardBrand?: string | null;
+  /** @nullable */
+  cardLast4?: string | null;
+  /** @nullable */
+  message?: string | null;
 }
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
@@ -159,6 +215,15 @@ export const OrderStatus = {
   shipped: "shipped",
   delivered: "delivered",
   cancelled: "cancelled",
+} as const;
+
+export type OrderPaymentStatus =
+  (typeof OrderPaymentStatus)[keyof typeof OrderPaymentStatus];
+
+export const OrderPaymentStatus = {
+  pending: "pending",
+  succeeded: "succeeded",
+  failed: "failed",
 } as const;
 
 export interface Order {
@@ -172,6 +237,15 @@ export interface Order {
   address: string;
   city: string;
   paymentMethod: string;
+  paymentStatus: OrderPaymentStatus;
+  /** @nullable */
+  transactionId?: string | null;
+  /** @nullable */
+  cardBrand?: string | null;
+  /** @nullable */
+  cardLast4?: string | null;
+  /** @nullable */
+  paymentMobile?: string | null;
   /** @nullable */
   notes?: string | null;
   subtotal: number;

@@ -17,4 +17,12 @@ export interface CreateOrderBody {
   paymentMethod: CreateOrderBodyPaymentMethod;
   /** @nullable */
   notes?: string | null;
+  /** @nullable */
+  transactionId?: string | null;
+  /** @nullable */
+  cardBrand?: string | null;
+  /** @nullable */
+  cardLast4?: string | null;
+  /** @nullable */
+  paymentMobile?: string | null;
 }

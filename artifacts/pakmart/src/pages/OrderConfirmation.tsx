@@ -92,18 +92,40 @@ export function OrderConfirmation({ id }: { id: string }) {
             </div>
 
             <h3 className="font-display font-bold text-xl text-[#1A1A1A] mb-6">Payment Method</h3>
-            <div className="flex items-center gap-3 bg-[#F8F9FA] rounded-2xl p-5 border border-black/5">
-              <div className="w-12 h-10 bg-white rounded border border-black/5 flex items-center justify-center font-bold text-xs uppercase text-emerald-600">
-                {order.paymentMethod === 'cod' ? 'COD' : order.paymentMethod}
+            <div className="bg-[#F8F9FA] rounded-2xl p-5 border border-black/5">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-10 bg-white rounded border border-black/5 flex items-center justify-center font-bold text-xs uppercase text-emerald-600">
+                  {order.paymentMethod === 'cod' ? 'COD' :
+                   order.paymentMethod === 'card' ? (order.cardBrand?.slice(0, 4) || 'CARD') :
+                   order.paymentMethod === 'easypaisa' ? 'EP' : 'JC'}
+                </div>
+                <div className="flex-1">
+                  <p className="font-bold text-[#1A1A1A]">
+                    {order.paymentMethod === 'cod' ? 'Cash on Delivery' :
+                     order.paymentMethod === 'card' ? `${order.cardBrand || 'Card'} •••• ${order.cardLast4 || ''}` :
+                     order.paymentMethod === 'easypaisa' ? 'Easypaisa Wallet' : 'JazzCash Wallet'}
+                  </p>
+                  <p className="text-sm text-[#6B6B6B]">
+                    {order.paymentMethod === 'cod'
+                      ? 'Payment collected upon delivery.'
+                      : order.paymentMobile
+                        ? `Charged to ${order.paymentMobile}`
+                        : 'Payment authorized successfully.'}
+                  </p>
+                </div>
+                {order.paymentStatus === 'succeeded' && (
+                  <Badge className="bg-emerald-100 text-emerald-700 border-none px-3 py-1 rounded-full text-xs font-medium">Paid</Badge>
+                )}
+                {order.paymentStatus === 'pending' && order.paymentMethod === 'cod' && (
+                  <Badge className="bg-saffron-100 text-saffron-700 border-none px-3 py-1 rounded-full text-xs font-medium">Pay on delivery</Badge>
+                )}
               </div>
-              <div>
-                <p className="font-bold text-[#1A1A1A]">
-                  {order.paymentMethod === 'cod' ? 'Cash on Delivery' : 
-                   order.paymentMethod === 'card' ? 'Credit/Debit Card' : 
-                   order.paymentMethod === 'easypaisa' ? 'Easypaisa' : 'JazzCash'}
-                </p>
-                <p className="text-sm text-[#6B6B6B]">Payment to be collected upon delivery.</p>
-              </div>
+              {order.transactionId && (
+                <div className="mt-4 pt-4 border-t border-black/5 flex items-center justify-between text-xs">
+                  <span className="text-[#6B6B6B]">Transaction ID</span>
+                  <span className="font-mono text-[#1A1A1A] font-medium">{order.transactionId}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -112,8 +134,8 @@ export function OrderConfirmation({ id }: { id: string }) {
             <h3 className="font-display font-bold text-xl text-[#1A1A1A] mb-6">Order Summary</h3>
             
             <div className="space-y-4 mb-6">
-              {order.items.map((item) => (
-                <div key={item.id} className="flex gap-4 items-center">
+              {order.items.map((item, idx) => (
+                <div key={`${item.productId}-${idx}`} className="flex gap-4 items-center">
                   <div className="w-16 h-16 bg-[#F8F9FA] rounded-lg border border-black/5 flex items-center justify-center p-2 flex-shrink-0">
                     <img src={getImageUrl(item.productImage)} alt={item.productName} className="max-w-full max-h-full object-contain mix-blend-multiply" />
                   </div>
