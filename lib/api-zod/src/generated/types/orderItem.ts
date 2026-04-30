@@ -7,7 +7,6 @@
  */
 
 export interface OrderItem {
-  id: number;
   productId: number;
   productSlug: string;
   productName: string;
