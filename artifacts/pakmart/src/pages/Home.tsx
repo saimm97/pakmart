@@ -128,9 +128,9 @@ export function Home() {
       
       {/* Hero Section */}
       <section className="bg-[#FAF7F1] pt-6 pb-12 lg:py-12 border-b border-black/5">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[500px]">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:min-h-[540px]">
           {/* Main Hero Banner */}
-          <div className="lg:col-span-8 relative rounded-2xl overflow-hidden group bg-[#E6EBE6] flex items-center shadow-sm border border-emerald-900/5">
+          <div className="lg:col-span-8 relative rounded-2xl overflow-hidden group bg-[#E6EBE6] flex items-center shadow-sm border border-emerald-900/5 min-h-[460px]">
             <div className="absolute inset-0 w-full h-full">
                <img src={getImageUrl("hero-banner.png")} alt="Grand Festive Sale" className="absolute inset-0 w-full h-full object-cover object-right transform group-hover:scale-[1.02] transition-transform duration-1000 ease-out" />
                <div className="absolute inset-0 bg-gradient-to-r from-[#E6EBE6] via-[#E6EBE6]/90 to-transparent w-2/3"></div>
