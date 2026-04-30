@@ -6,7 +6,7 @@ import {
   useListBrands, 
   useAddCartItem 
 } from "@workspace/api-client-react";
-import { Star, Heart, Eye, Filter, ArrowRight, X } from "lucide-react";
+import { Star, Heart, Eye, Filter, ArrowRight, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
