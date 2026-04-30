@@ -499,6 +499,49 @@ export const ClearCartResponse = zod.object({
 });
 
 /**
+ * @summary Process a card payment for the current cart
+ */
+export const processCardPaymentBodyExpMonthMax = 12;
+
+export const ProcessCardPaymentBody = zod.object({
+  cardNumber: zod.string(),
+  expMonth: zod.number().min(1).max(processCardPaymentBodyExpMonthMax),
+  expYear: zod.number(),
+  cvv: zod.string(),
+  cardholderName: zod.string(),
+  amount: zod.number().describe("Amount in PKR (integer)"),
+});
+
+export const ProcessCardPaymentResponse = zod.object({
+  success: zod.boolean(),
+  transactionId: zod.string(),
+  status: zod.enum(["succeeded", "failed"]),
+  amount: zod.number(),
+  cardBrand: zod.string().nullish(),
+  cardLast4: zod.string().nullish(),
+  message: zod.string().nullish(),
+});
+
+/**
+ * @summary Process an Easypaisa or JazzCash mobile wallet payment
+ */
+export const ProcessMobilePaymentBody = zod.object({
+  provider: zod.enum(["easypaisa", "jazzcash"]),
+  mobileNumber: zod.string(),
+  amount: zod.number(),
+});
+
+export const ProcessMobilePaymentResponse = zod.object({
+  success: zod.boolean(),
+  transactionId: zod.string(),
+  status: zod.enum(["succeeded", "failed"]),
+  amount: zod.number(),
+  cardBrand: zod.string().nullish(),
+  cardLast4: zod.string().nullish(),
+  message: zod.string().nullish(),
+});
+
+/**
  * @summary Place order from current cart
  */
 export const CreateOrderBody = zod.object({
@@ -509,6 +552,10 @@ export const CreateOrderBody = zod.object({
   city: zod.string(),
   paymentMethod: zod.enum(["cod", "easypaisa", "jazzcash", "card"]),
   notes: zod.string().nullish(),
+  transactionId: zod.string().nullish(),
+  cardBrand: zod.string().nullish(),
+  cardLast4: zod.string().nullish(),
+  paymentMobile: zod.string().nullish(),
 });
 
 /**
@@ -534,6 +581,11 @@ export const GetOrderResponse = zod.object({
   address: zod.string(),
   city: zod.string(),
   paymentMethod: zod.string(),
+  paymentStatus: zod.enum(["pending", "succeeded", "failed"]),
+  transactionId: zod.string().nullish(),
+  cardBrand: zod.string().nullish(),
+  cardLast4: zod.string().nullish(),
+  paymentMobile: zod.string().nullish(),
   notes: zod.string().nullish(),
   subtotal: zod.number(),
   deliveryFee: zod.number(),
@@ -541,7 +593,6 @@ export const GetOrderResponse = zod.object({
   total: zod.number(),
   items: zod.array(
     zod.object({
-      id: zod.number(),
       productId: zod.number(),
       productSlug: zod.string(),
       productName: zod.string(),

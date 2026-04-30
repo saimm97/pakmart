@@ -28,6 +28,9 @@ import type {
   HomeFeed,
   ListProductsParams,
   Order,
+  PaymentResult,
+  ProcessCardPaymentBody,
+  ProcessMobilePaymentBody,
   Product,
   ProductList,
   Testimonial,
@@ -1244,6 +1247,183 @@ export const useClearCart = <
   TContext
 > => {
   return useMutation(getClearCartMutationOptions(options));
+};
+
+/**
+ * @summary Process a card payment for the current cart
+ */
+export const getProcessCardPaymentUrl = () => {
+  return `/api/payments/card`;
+};
+
+export const processCardPayment = async (
+  processCardPaymentBody: ProcessCardPaymentBody,
+  options?: RequestInit,
+): Promise<PaymentResult> => {
+  return customFetch<PaymentResult>(getProcessCardPaymentUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(processCardPaymentBody),
+  });
+};
+
+export const getProcessCardPaymentMutationOptions = <
+  TError = ErrorType<ErrorResponse | PaymentResult>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof processCardPayment>>,
+    TError,
+    { data: BodyType<ProcessCardPaymentBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof processCardPayment>>,
+  TError,
+  { data: BodyType<ProcessCardPaymentBody> },
+  TContext
+> => {
+  const mutationKey = ["processCardPayment"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof processCardPayment>>,
+    { data: BodyType<ProcessCardPaymentBody> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return processCardPayment(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ProcessCardPaymentMutationResult = NonNullable<
+  Awaited<ReturnType<typeof processCardPayment>>
+>;
+export type ProcessCardPaymentMutationBody = BodyType<ProcessCardPaymentBody>;
+export type ProcessCardPaymentMutationError = ErrorType<
+  ErrorResponse | PaymentResult
+>;
+
+/**
+ * @summary Process a card payment for the current cart
+ */
+export const useProcessCardPayment = <
+  TError = ErrorType<ErrorResponse | PaymentResult>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof processCardPayment>>,
+    TError,
+    { data: BodyType<ProcessCardPaymentBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof processCardPayment>>,
+  TError,
+  { data: BodyType<ProcessCardPaymentBody> },
+  TContext
+> => {
+  return useMutation(getProcessCardPaymentMutationOptions(options));
+};
+
+/**
+ * @summary Process an Easypaisa or JazzCash mobile wallet payment
+ */
+export const getProcessMobilePaymentUrl = () => {
+  return `/api/payments/mobile`;
+};
+
+export const processMobilePayment = async (
+  processMobilePaymentBody: ProcessMobilePaymentBody,
+  options?: RequestInit,
+): Promise<PaymentResult> => {
+  return customFetch<PaymentResult>(getProcessMobilePaymentUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(processMobilePaymentBody),
+  });
+};
+
+export const getProcessMobilePaymentMutationOptions = <
+  TError = ErrorType<ErrorResponse | PaymentResult>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof processMobilePayment>>,
+    TError,
+    { data: BodyType<ProcessMobilePaymentBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof processMobilePayment>>,
+  TError,
+  { data: BodyType<ProcessMobilePaymentBody> },
+  TContext
+> => {
+  const mutationKey = ["processMobilePayment"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof processMobilePayment>>,
+    { data: BodyType<ProcessMobilePaymentBody> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return processMobilePayment(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ProcessMobilePaymentMutationResult = NonNullable<
+  Awaited<ReturnType<typeof processMobilePayment>>
+>;
+export type ProcessMobilePaymentMutationBody =
+  BodyType<ProcessMobilePaymentBody>;
+export type ProcessMobilePaymentMutationError = ErrorType<
+  ErrorResponse | PaymentResult
+>;
+
+/**
+ * @summary Process an Easypaisa or JazzCash mobile wallet payment
+ */
+export const useProcessMobilePayment = <
+  TError = ErrorType<ErrorResponse | PaymentResult>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof processMobilePayment>>,
+    TError,
+    { data: BodyType<ProcessMobilePaymentBody> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof processMobilePayment>>,
+  TError,
+  { data: BodyType<ProcessMobilePaymentBody> },
+  TContext
+> => {
+  return useMutation(getProcessMobilePaymentMutationOptions(options));
 };
 
 /**

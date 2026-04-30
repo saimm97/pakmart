@@ -43,6 +43,18 @@ router.post("/orders", async (req, res): Promise<void> => {
     lineTotal: item.lineTotal,
   }));
 
+  const isPrepaid =
+    parsed.data.paymentMethod === "card" ||
+    parsed.data.paymentMethod === "easypaisa" ||
+    parsed.data.paymentMethod === "jazzcash";
+
+  if (isPrepaid && !parsed.data.transactionId) {
+    res.status(400).json({
+      error: "A successful payment is required for this payment method.",
+    });
+    return;
+  }
+
   const [order] = await db
     .insert(ordersTable)
     .values({
@@ -55,6 +67,11 @@ router.post("/orders", async (req, res): Promise<void> => {
       address: parsed.data.address,
       city: parsed.data.city,
       paymentMethod: parsed.data.paymentMethod,
+      paymentStatus: isPrepaid ? "succeeded" : "pending",
+      transactionId: parsed.data.transactionId ?? null,
+      cardBrand: parsed.data.cardBrand ?? null,
+      cardLast4: parsed.data.cardLast4 ?? null,
+      paymentMobile: parsed.data.paymentMobile ?? null,
       notes: parsed.data.notes ?? null,
       subtotal: cart.subtotal,
       deliveryFee: cart.deliveryFee,
