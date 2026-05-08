@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { useGetHomeFeed, useAddCartItem } from "@workspace/api-client-react";
+import { useGetHomeFeed, useAddCartItem, getGetCartQueryKey } from "@workspace/api-client-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { 
-  Heart, Eye, Star, ArrowRight, Clock, ShieldCheck, Truck, 
-  CreditCard, Wallet, Smartphone, Tv, Shirt, Grape, Baby, Home as HomeIcon,
-  CheckCircle2
+  Heart, ShoppingCart, Star, ArrowRight, ShieldCheck, Truck, 
+  CreditCard, Wallet, CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,65 +13,69 @@ import { formatPrice, getImageUrl } from "@/lib/format";
 import { toast } from "sonner";
 
 function ProductCard({ product }: { product: any }) {
+  const queryClient = useQueryClient();
   const addCart = useAddCartItem();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addCart.mutate({ data: { productId: product.id, quantity: 1 } }, {
-      onSuccess: () => toast.success(`Added ${product.name} to cart`),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
+        toast.success(`Added to cart`);
+      },
       onError: () => toast.error(`Failed to add ${product.name}`)
     });
   };
 
   return (
     <Link href={`/product/${product.slug}`}>
-      <Card className="group overflow-hidden border border-black/5 hover:border-emerald-600/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-400 bg-white flex flex-col h-full rounded-2xl cursor-pointer">
-        <div className="relative p-6 aspect-[4/5] bg-[#F8F9FA] flex items-center justify-center">
+      <Card className="group overflow-hidden border border-black/5 hover:border-emerald-600/20 hover:shadow-[0_12px_40px_rgba(14,94,63,0.1)] hover:-translate-y-1 transition-all duration-300 bg-white flex flex-col h-full rounded-2xl cursor-pointer">
+        <div className="relative aspect-square bg-[#F8F9FA] flex items-center justify-center overflow-hidden p-5">
           {product.discount > 0 && (
-            <Badge className="absolute top-4 left-4 bg-saffron-500 text-white hover:bg-saffron-600 font-medium z-10 rounded px-2 py-0.5 text-[10px] shadow-sm border-none uppercase tracking-wider">
+            <Badge className="absolute top-3 left-3 bg-saffron-500 text-white hover:bg-saffron-600 font-bold z-10 rounded-lg px-2 py-0.5 text-[10px] shadow-sm border-none uppercase tracking-wider">
               {product.discount}% OFF
             </Badge>
           )}
-          <div className="absolute top-4 right-4 flex flex-col gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-2 group-hover:translate-x-0">
-            <button className="w-8 h-8 bg-white border border-black/5 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:border-emerald-600 transition-colors shadow-sm">
-              <Heart className="w-4 h-4" />
-            </button>
-            <button className="w-8 h-8 bg-white border border-black/5 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:border-emerald-600 transition-colors shadow-sm">
-              <Eye className="w-4 h-4" />
-            </button>
-          </div>
-          <img src={getImageUrl(product.image)} alt={product.name} className="max-w-[85%] max-h-[85%] object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-700 ease-out" />
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+            className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors shadow-sm border border-black/5 z-10 opacity-0 group-hover:opacity-100"
+          >
+            <Heart className="w-3.5 h-3.5" />
+          </button>
+          <img
+            src={getImageUrl(product.image)}
+            alt={product.name}
+            className="w-[75%] h-[75%] object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500 ease-out"
+          />
         </div>
-        <CardContent className="p-5 flex-1 flex flex-col relative bg-white">
-          <span className="text-[10px] uppercase tracking-widest text-[#6B6B6B] font-semibold mb-1.5">{product.brand}</span>
-          <h3 className="font-display font-medium text-[#1A1A1A] text-[15px] line-clamp-2 min-h-[44px] mb-2 leading-snug group-hover:text-emerald-600 transition-colors">{product.name}</h3>
+        <CardContent className="p-4 flex-1 flex flex-col bg-white">
+          <span className="text-[10px] uppercase tracking-widest text-emerald-600 font-bold mb-1">{product.brand}</span>
+          <h3 className="font-display font-semibold text-[#1A1A1A] text-sm line-clamp-2 mb-2 leading-snug group-hover:text-emerald-700 transition-colors flex-1">{product.name}</h3>
           
-          <div className="flex items-center gap-1 mb-4">
+          <div className="flex items-center gap-1 mb-3">
             <div className="flex text-saffron-500">
-              <Star className="w-3 h-3 fill-current" />
-              <Star className="w-3 h-3 fill-current" />
-              <Star className="w-3 h-3 fill-current" />
-              <Star className="w-3 h-3 fill-current" />
-              <Star className="w-3 h-3 fill-current opacity-30" />
+              {[1,2,3,4,5].map(i => (
+                <Star key={i} className={`w-3 h-3 fill-current ${i > Math.round(product.rating ?? 4) ? 'opacity-25' : ''}`} />
+              ))}
             </div>
-            <span className="text-[11px] text-[#6B6B6B]">({product.reviewCount})</span>
+            <span className="text-[11px] text-[#6B6B6B] ml-0.5">({product.reviewCount})</span>
           </div>
 
-          <div className="mt-auto flex flex-col">
-            <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-lg font-semibold text-[#1A1A1A] tracking-tight">{formatPrice(product.price)}</span>
+          <div className="flex items-center justify-between gap-2 mt-auto pt-3 border-t border-black/5">
+            <div>
+              <div className="text-base font-bold text-[#1A1A1A] leading-none">{formatPrice(product.price)}</div>
               {product.oldPrice && (
-                <span className="text-xs text-[#6B6B6B] line-through">{formatPrice(product.oldPrice)}</span>
+                <div className="text-xs text-[#6B6B6B] line-through mt-0.5">{formatPrice(product.oldPrice)}</div>
               )}
             </div>
-            
-            <Button 
-              variant="outline" 
+            <button
               onClick={handleAddToCart}
-              className="w-full mt-4 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-xl transition-colors opacity-0 group-hover:opacity-100 h-10 pointer-events-none group-hover:pointer-events-auto absolute bottom-5 left-5 right-5 w-[calc(100%-40px)] bg-white font-medium">
-              Add to Cart
-            </Button>
+              disabled={addCart.isPending}
+              className="w-9 h-9 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white rounded-xl flex items-center justify-center transition-colors shadow-sm flex-shrink-0 active:scale-95"
+            >
+              <ShoppingCart className="w-4 h-4" />
+            </button>
           </div>
         </CardContent>
       </Card>
@@ -101,7 +105,6 @@ export function Home() {
   const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 45, seconds: 30 });
 
   useEffect(() => {
-    // A simple mock timer that counts down, actual sync could be done with feed.flashDeal.endsAt
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
@@ -248,15 +251,15 @@ export function Home() {
               </div>
             </div>
             
-            <Button className="mt-8 bg-white text-[#1A1A1A] hover:bg-gray-100 rounded-full px-8 h-12 w-full md:w-auto font-bold group">
-              View All Deals <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+            <Button asChild className="mt-8 bg-white text-[#1A1A1A] hover:bg-gray-100 rounded-full px-8 h-12 w-full md:w-auto font-bold group">
+              <Link href="/deals">View All Deals <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" /></Link>
             </Button>
           </div>
           
           <div className="md:w-2/3 relative z-10 w-full overflow-x-auto hide-scrollbar pb-4">
             <div className="flex gap-4 min-w-max pr-4">
               {feed.flashDeal.items.slice(0, 4).map((product) => (
-                <div key={product.id} className="w-[240px] flex-shrink-0">
+                <div key={product.id} className="w-[220px] flex-shrink-0">
                   <ProductCard product={product} />
                 </div>
               ))}
@@ -297,13 +300,15 @@ export function Home() {
               <Badge className="bg-white/20 backdrop-blur-md text-white hover:bg-white/30 mb-3 border-white/30 text-[10px] uppercase tracking-wider">Tech Deals</Badge>
               <h3 className="text-3xl font-display font-bold text-white mb-2 leading-tight">Latest<br/>Smartphones</h3>
               <p className="text-white/80 text-sm mb-4">Up to 15% off on Samsung & Infinix</p>
-              <Button className="bg-white text-[#1A1A1A] hover:bg-gray-100 rounded-full text-xs font-bold px-6 h-10">Shop Tech</Button>
+              <Button asChild className="bg-white text-[#1A1A1A] hover:bg-gray-100 rounded-full text-xs font-bold px-6 h-10">
+                <Link href="/shop/mobiles">Shop Tech</Link>
+              </Button>
             </div>
           </div>
           
           <div className="lg:col-span-3">
             <SectionHeader eyebrow="Trending Now" title="Most loved products" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
               {feed.trending.slice(0, 6).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -315,7 +320,6 @@ export function Home() {
       {/* Testimonials */}
       <section className="bg-emerald-900 py-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-10">
-          {/* Abstract pattern placeholder */}
           <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path fill="#FFFFFF" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,81.3,-46.3C90.8,-33.5,96.7,-18,97.2,-2.3C97.7,13.4,92.8,29.3,83.9,42.5C75,55.7,62.1,66.2,47.9,73.1C33.7,80,18.2,83.3,2.4,80C-13.4,76.7,-28.9,66.8,-42.8,58.3C-56.7,49.8,-69,42.7,-77.2,31.7C-85.4,20.7,-89.5,5.8,-88.4,-8.7C-87.3,-23.2,-81,-37.3,-71.4,-47.9C-61.8,-58.5,-48.9,-65.6,-35.6,-73.4C-22.3,-81.2,-8.6,-89.7,4.2,-97C17,-104.3,30.6,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
           </svg>
