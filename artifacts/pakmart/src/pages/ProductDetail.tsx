@@ -4,8 +4,10 @@ import {
   useGetProduct, 
   useGetRelatedProducts, 
   useAddCartItem,
-  getGetProductQueryKey
+  getGetProductQueryKey,
+  getGetCartQueryKey
 } from "@workspace/api-client-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Star, Heart, Share2, Truck, ShieldCheck, RefreshCw, Minus, Plus, ShoppingCart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +17,7 @@ import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 
 export function ProductDetail({ slug }: { slug: string }) {
+  const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
   const { data: product, isLoading } = useGetProduct(slug, {
     query: { enabled: !!slug, queryKey: getGetProductQueryKey(slug) }
@@ -31,7 +34,10 @@ export function ProductDetail({ slug }: { slug: string }) {
 
   const handleAddToCart = () => {
     addCart.mutate({ data: { productId: product.id, quantity } }, {
-      onSuccess: () => toast.success(`Added ${quantity} x ${product.name} to cart`),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
+        toast.success(`Added ${quantity} × ${product.name} to cart`);
+      },
       onError: () => toast.error(`Failed to add item to cart`)
     });
   };
@@ -39,6 +45,7 @@ export function ProductDetail({ slug }: { slug: string }) {
   const handleBuyNow = () => {
     addCart.mutate({ data: { productId: product.id, quantity } }, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
         setLocation("/checkout");
       }
     });
