@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { and, asc, desc, eq, gte, ilike, lte, ne, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, ilike, inArray, lte, ne, or, sql, gt } from "drizzle-orm";
 import { db, productsTable, brandsTable, categoriesTable } from "@workspace/db";
 import {
   GetProductParams,
@@ -28,14 +28,43 @@ router.get("/products", async (req, res): Promise<void> => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const { category, brand, search, minPrice, maxPrice, sort, limit, offset } =
+  const { category, brand, brands, search, minPrice, maxPrice, minRating, onSale, inStock, sort, limit, offset } =
     parsed.data;
 
   const conditions = [];
-  if (category) conditions.push(eq(productsTable.categorySlug, category));
-  if (brand) conditions.push(eq(productsTable.brandSlug, brand));
+
+  if (category) {
+    // Also include all subcategories of this category
+    const allCats = await db.select().from(categoriesTable);
+    const childSlugs = allCats
+      .filter((c) => c.parentSlug === category)
+      .map((c) => c.slug);
+    const slugs = [category, ...childSlugs];
+    conditions.push(
+      slugs.length === 1
+        ? eq(productsTable.categorySlug, category)
+        : inArray(productsTable.categorySlug, slugs),
+    );
+  }
+
+  // Multi-brand: prefer `brands` (comma-separated), fall back to single `brand`
+  const brandSlugs = brands
+    ? brands.split(",").map((s) => s.trim()).filter(Boolean)
+    : brand
+    ? [brand]
+    : [];
+  if (brandSlugs.length === 1) {
+    conditions.push(eq(productsTable.brandSlug, brandSlugs[0]));
+  } else if (brandSlugs.length > 1) {
+    conditions.push(inArray(productsTable.brandSlug, brandSlugs));
+  }
+
   if (typeof minPrice === "number") conditions.push(gte(productsTable.price, minPrice));
   if (typeof maxPrice === "number") conditions.push(lte(productsTable.price, maxPrice));
+  if (typeof minRating === "number") conditions.push(gte(productsTable.rating, String(minRating)));
+  if (onSale === true) conditions.push(gt(productsTable.oldPrice, productsTable.price));
+  if (inStock === true) conditions.push(gt(productsTable.stock, 0));
+
   if (search) {
     const q = `%${search}%`;
     conditions.push(
@@ -51,17 +80,12 @@ router.get("/products", async (req, res): Promise<void> => {
 
   const orderClause = (() => {
     switch (sort) {
-      case "newest":
-        return desc(productsTable.createdAt);
-      case "price_asc":
-        return asc(productsTable.price);
-      case "price_desc":
-        return desc(productsTable.price);
-      case "rating":
-        return desc(productsTable.rating);
+      case "newest":    return desc(productsTable.createdAt);
+      case "price_asc": return asc(productsTable.price);
+      case "price_desc":return desc(productsTable.price);
+      case "rating":    return desc(productsTable.rating);
       case "popular":
-      default:
-        return desc(productsTable.sold);
+      default:          return desc(productsTable.sold);
     }
   })();
 
@@ -102,11 +126,7 @@ router.get("/products/:slug", async (req, res): Promise<void> => {
     return;
   }
   const { brandsBySlug, categoriesBySlug } = await getLookups();
-  res.json(
-    GetProductResponse.parse(
-      serializeProduct(product, brandsBySlug, categoriesBySlug),
-    ),
-  );
+  res.json(GetProductResponse.parse(serializeProduct(product, brandsBySlug, categoriesBySlug)));
 });
 
 router.get("/products/:slug/related", async (req, res): Promise<void> => {
@@ -123,12 +143,22 @@ router.get("/products/:slug/related", async (req, res): Promise<void> => {
     res.json(GetRelatedProductsResponse.parse([]));
     return;
   }
+  // Include products from parent category too
+  const allCats = await db.select().from(categoriesTable);
+  const thisCat = allCats.find((c) => c.slug === product.categorySlug);
+  const parentSlug = thisCat?.parentSlug ?? product.categorySlug;
+  const siblingCatSlugs = allCats
+    .filter((c) => c.slug === parentSlug || c.parentSlug === parentSlug)
+    .map((c) => c.slug);
+
   const rows = await db
     .select()
     .from(productsTable)
     .where(
       and(
-        eq(productsTable.categorySlug, product.categorySlug),
+        siblingCatSlugs.length > 1
+          ? inArray(productsTable.categorySlug, siblingCatSlugs)
+          : eq(productsTable.categorySlug, product.categorySlug),
         ne(productsTable.id, product.id),
       ),
     )
