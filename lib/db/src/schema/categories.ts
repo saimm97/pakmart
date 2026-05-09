@@ -6,6 +6,7 @@ export const categoriesTable = pgTable("categories", {
   name: text("name").notNull(),
   image: text("image").notNull(),
   icon: text("icon").notNull(),
+  parentSlug: text("parent_slug"),
   position: integer("position").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
