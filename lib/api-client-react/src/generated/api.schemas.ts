@@ -20,6 +20,8 @@ export interface Category {
   image: string;
   /** lucide-react icon name */
   icon: string;
+  /** @nullable */
+  parentSlug?: string | null;
   productCount: number;
 }
 
@@ -262,9 +264,25 @@ export type ListProductsParams = {
    */
   category?: string;
   /**
-   * Brand slug
+   * Single brand slug (legacy)
    */
   brand?: string;
+  /**
+   * Comma-separated brand slugs for multi-select
+   */
+  brands?: string;
+  /**
+   * Minimum rating (e.g. 4 for 4★+)
+   */
+  minRating?: number;
+  /**
+   * Only show products with a discount
+   */
+  onSale?: boolean;
+  /**
+   * Only show in-stock products
+   */
+  inStock?: boolean;
   search?: string;
   minPrice?: number;
   maxPrice?: number;

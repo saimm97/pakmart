@@ -103,7 +103,27 @@ paths:
           in: query
           required: false
           schema: { type: string }
-          description: Brand slug
+          description: Single brand slug (legacy)
+        - name: brands
+          in: query
+          required: false
+          schema: { type: string }
+          description: Comma-separated brand slugs for multi-select
+        - name: minRating
+          in: query
+          required: false
+          schema: { type: number }
+          description: Minimum rating (e.g. 4 for 4★+)
+        - name: onSale
+          in: query
+          required: false
+          schema: { type: boolean }
+          description: Only show products with a discount
+        - name: inStock
+          in: query
+          required: false
+          schema: { type: boolean }
+          description: Only show in-stock products
         - name: search
           in: query
           required: false
@@ -413,6 +433,7 @@ components:
         name: { type: string }
         image: { type: string }
         icon: { type: string, description: "lucide-react icon name" }
+        parentSlug: { type: ["string", "null"] }
         productCount: { type: integer }
 
     Brand:
