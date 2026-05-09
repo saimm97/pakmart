@@ -208,13 +208,13 @@ export function ProductDetail({ slug }: { slug: string }) {
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
               {relatedProducts.slice(0, 5).map(prod => (
                 <Link href={`/product/${prod.slug}`} key={prod.id}>
-                  <Card className="group overflow-hidden border border-white/[0.06] hover:border-emerald-500/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.5)] transition-all duration-300 bg-white h-full rounded-2xl cursor-pointer">
-                    <div className="p-4 aspect-square bg-[#F6F7F9] flex items-center justify-center">
-                      <img src={getImageUrl(prod.image)} alt={prod.name} className="max-w-[85%] max-h-[85%] object-contain mix-blend-multiply group-hover:scale-105 transition-transform" />
+                  <Card className="group overflow-hidden border border-white/[0.06] hover:border-emerald-500/40 hover:shadow-[0_12px_36px_rgba(0,0,0,0.6)] hover:-translate-y-1 transition-all duration-300 bg-[#13162A] h-full rounded-2xl cursor-pointer">
+                    <div className="p-4 aspect-square bg-[#1A1E35] flex items-center justify-center rounded-t-2xl">
+                      <img src={getImageUrl(prod.image)} alt={prod.name} className="max-w-[80%] max-h-[80%] object-contain group-hover:scale-110 transition-transform duration-500 drop-shadow-lg" />
                     </div>
-                    <CardContent className="p-4 bg-white">
-                      <h3 className="font-display font-medium text-[#1A1A1A] text-sm line-clamp-2 mb-2 group-hover:text-emerald-700 transition-colors">{prod.name}</h3>
-                      <div className="font-bold text-[#1A1A1A]">{formatPrice(prod.price)}</div>
+                    <CardContent className="p-4">
+                      <h3 className="font-display font-medium text-[#EEF1FA] text-sm line-clamp-2 mb-2 group-hover:text-emerald-300 transition-colors">{prod.name}</h3>
+                      <div className="font-bold text-[#EEF1FA]">{formatPrice(prod.price)}</div>
                     </CardContent>
                   </Card>
                 </Link>
