@@ -53,6 +53,7 @@ export const GetHomeFeedResponse = zod.object({
       name: zod.string(),
       image: zod.string(),
       icon: zod.string().describe("lucide-react icon name"),
+      parentSlug: zod.string().nullish(),
       productCount: zod.number(),
     }),
   ),
@@ -160,6 +161,7 @@ export const ListCategoriesResponseItem = zod.object({
   name: zod.string(),
   image: zod.string(),
   icon: zod.string().describe("lucide-react icon name"),
+  parentSlug: zod.string().nullish(),
   productCount: zod.number(),
 });
 export const ListCategoriesResponse = zod.array(ListCategoriesResponseItem);
@@ -177,6 +179,7 @@ export const GetCategoryResponse = zod.object({
   name: zod.string(),
   image: zod.string(),
   icon: zod.string().describe("lucide-react icon name"),
+  parentSlug: zod.string().nullish(),
   productCount: zod.number(),
 });
 
@@ -196,7 +199,23 @@ export const ListBrandsResponse = zod.array(ListBrandsResponseItem);
  */
 export const ListProductsQueryParams = zod.object({
   category: zod.coerce.string().optional().describe("Category slug"),
-  brand: zod.coerce.string().optional().describe("Brand slug"),
+  brand: zod.coerce.string().optional().describe("Single brand slug (legacy)"),
+  brands: zod.coerce
+    .string()
+    .optional()
+    .describe("Comma-separated brand slugs for multi-select"),
+  minRating: zod.coerce
+    .number()
+    .optional()
+    .describe("Minimum rating (e.g. 4 for 4★+)"),
+  onSale: zod.coerce
+    .boolean()
+    .optional()
+    .describe("Only show products with a discount"),
+  inStock: zod.coerce
+    .boolean()
+    .optional()
+    .describe("Only show in-stock products"),
   search: zod.coerce.string().optional(),
   minPrice: zod.coerce.number().optional(),
   maxPrice: zod.coerce.number().optional(),

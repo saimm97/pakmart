@@ -29,11 +29,11 @@ function Router() {
     <Layout>
       <Switch>
         <Route path="/" component={Home} />
-        <Route path="/shop" component={Shop} />
+        <Route path="/shop">{() => <Shop />}</Route>
         <Route path="/shop/:categorySlug">
           {params => <Shop categorySlug={params.categorySlug} />}
         </Route>
-        <Route path="/search" component={Shop} />
+        <Route path="/search">{() => <Shop />}</Route>
         <Route path="/product/:slug">
           {params => <ProductDetail slug={params.slug} />}
         </Route>

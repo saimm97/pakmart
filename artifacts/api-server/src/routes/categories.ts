@@ -28,6 +28,7 @@ async function loadCategoriesWithCounts() {
     name: c.name,
     image: c.image,
     icon: c.icon,
+    parentSlug: c.parentSlug ?? null,
     productCount: countMap.get(c.slug) ?? 0,
   }));
 }
@@ -62,6 +63,7 @@ router.get("/categories/:slug", async (req, res): Promise<void> => {
       name: cat.name,
       image: cat.image,
       icon: cat.icon,
+      parentSlug: cat.parentSlug ?? null,
       productCount: count ?? 0,
     }),
   );
