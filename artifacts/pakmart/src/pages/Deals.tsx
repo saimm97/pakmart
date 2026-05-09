@@ -99,8 +99,8 @@ export function Deals() {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
           {deal.items.map((product) => (
             <Link href={`/product/${product.slug}`} key={product.id}>
-              <Card className="group overflow-hidden border border-white/[0.06] hover:border-[#E8B84A]/30 hover:shadow-[0_16px_48px_rgba(232,184,74,0.12)] transition-all duration-300 bg-white flex flex-col h-full rounded-2xl cursor-pointer">
-                <div className="relative aspect-square bg-[#F6F7F9] flex items-center justify-center overflow-hidden p-5">
+              <Card className="group overflow-hidden border border-white/[0.06] hover:border-[#E8B84A]/40 hover:shadow-[0_16px_48px_rgba(232,184,74,0.15)] hover:-translate-y-1.5 transition-all duration-300 bg-[#13162A] flex flex-col h-full rounded-2xl cursor-pointer">
+                <div className="relative aspect-square bg-[#1A1E35] flex items-center justify-center overflow-hidden p-5 rounded-t-2xl">
                   {product.discount > 0 && (
                     <Badge className="absolute top-3 left-3 bg-[#E8B84A] text-[#0C0E18] font-black z-10 rounded-lg px-2 py-0.5 text-[10px] border-none uppercase tracking-wider flex items-center gap-1">
                       <Zap className="w-2.5 h-2.5" fill="currentColor" /> {product.discount}% OFF
@@ -108,45 +108,45 @@ export function Deals() {
                   )}
                   <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                    className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors shadow-sm border border-black/5 z-10 opacity-0 group-hover:opacity-100"
+                    className="absolute top-3 right-3 w-8 h-8 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white/40 hover:text-red-400 hover:bg-red-900/30 transition-colors border border-white/10 z-10 opacity-0 group-hover:opacity-100"
                   >
                     <Heart className="w-3.5 h-3.5" />
                   </button>
                   <img
                     src={getImageUrl(product.image)}
                     alt={product.name}
-                    className="w-[75%] h-[75%] object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500 ease-out relative z-10"
+                    className="w-[72%] h-[72%] object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-lg"
                   />
                 </div>
-                <CardContent className="p-4 flex-1 flex flex-col bg-white">
-                  <span className="text-[10px] uppercase tracking-widest text-emerald-600 font-bold mb-1">{product.brand}</span>
-                  <h3 className="font-display font-semibold text-[#1A1A1A] text-sm line-clamp-2 mb-3 leading-snug group-hover:text-emerald-700 transition-colors">{product.name}</h3>
+                <CardContent className="p-4 flex-1 flex flex-col">
+                  <span className="text-[10px] uppercase tracking-widest text-emerald-400 font-bold mb-1">{product.brand}</span>
+                  <h3 className="font-display font-semibold text-[#EEF1FA] text-sm line-clamp-2 mb-3 leading-snug group-hover:text-emerald-300 transition-colors">{product.name}</h3>
 
                   {/* Stock progress */}
                   <div className="mb-3">
-                    <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                    <div className="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden">
                       <div
                         className="bg-[#E8B84A] h-full rounded-full transition-all"
                         style={{ width: `${Math.min(95, (product.sold / Math.max(1, product.sold + product.stock)) * 100)}%` }}
                       />
                     </div>
                     <div className="flex justify-between text-[10px] mt-1 font-medium">
-                      <span className="text-gray-400">{product.sold.toLocaleString()} sold</span>
-                      <span className="text-[#C9943C] font-bold">Almost gone!</span>
+                      <span className="text-[#5A6480]">{product.sold.toLocaleString()} sold</span>
+                      <span className="text-[#E8B84A] font-bold">Almost gone!</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between gap-2 mt-auto pt-3 border-t border-black/5">
+                  <div className="flex items-center justify-between gap-2 mt-auto pt-3 border-t border-white/[0.06]">
                     <div>
-                      <div className="text-base font-bold text-[#C9943C] leading-none">{formatPrice(product.price)}</div>
+                      <div className="text-base font-bold text-[#E8B84A] leading-none">{formatPrice(product.price)}</div>
                       {product.oldPrice && (
-                        <div className="text-xs text-gray-400 line-through mt-0.5">{formatPrice(product.oldPrice)}</div>
+                        <div className="text-xs text-[#5A6480] line-through mt-0.5">{formatPrice(product.oldPrice)}</div>
                       )}
                     </div>
                     <button
                       onClick={(e) => handleAddToCart(e, product)}
                       disabled={addCart.isPending}
-                      className="w-9 h-9 bg-[#E8B84A] hover:bg-[#D4A843] disabled:opacity-60 text-[#0C0E18] rounded-xl flex items-center justify-center transition-colors shadow-sm flex-shrink-0 active:scale-95"
+                      className="w-9 h-9 bg-[#E8B84A] hover:bg-[#F5C96A] disabled:opacity-60 text-[#0C0E18] rounded-xl flex items-center justify-center transition-all shadow-[0_2px_12px_rgba(232,184,74,0.3)] flex-shrink-0 active:scale-95 group-hover:shadow-[0_4px_20px_rgba(232,184,74,0.45)]"
                     >
                       <ShoppingCart className="w-4 h-4" />
                     </button>
