@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
-import { useGetCart, useUpdateCartItem, useRemoveCartItem, useClearCart } from "@workspace/api-client-react";
+import { useGetCart, useUpdateCartItem, useRemoveCartItem, useClearCart, getGetCartQueryKey } from "@workspace/api-client-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Minus, Plus, Trash2, ArrowRight, ShoppingBag, ShieldCheck, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPrice, getImageUrl } from "@/lib/format";
@@ -8,10 +9,13 @@ import { toast } from "sonner";
 
 export function Cart() {
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
   const { data: cart, isLoading } = useGetCart();
   const updateCartItem = useUpdateCartItem();
   const removeCartItem = useRemoveCartItem();
   const clearCart = useClearCart();
+
+  const invalidateCart = () => queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
 
   if (isLoading || !cart) {
     return (
@@ -40,15 +44,21 @@ export function Cart() {
 
   const handleUpdateQuantity = (id: number, quantity: number) => {
     if (quantity < 1) return;
-    updateCartItem.mutate({ id, data: { quantity } });
+    updateCartItem.mutate({ id, data: { quantity } }, { onSuccess: invalidateCart });
   };
 
   const handleRemoveItem = (id: number, name: string) => {
-    removeCartItem.mutate({ id }, { onSuccess: () => toast.success(`Removed ${name} from cart`) });
+    removeCartItem.mutate({ id }, {
+      onSuccess: () => { invalidateCart(); toast.success(`Removed ${name} from cart`); },
+      onError: () => toast.error("Failed to remove item"),
+    });
   };
 
   const handleClearCart = () => {
-    clearCart.mutate({} as any, { onSuccess: () => toast.success("Cart cleared") });
+    clearCart.mutate(undefined, {
+      onSuccess: () => { invalidateCart(); toast.success("Cart cleared"); },
+      onError: () => toast.error("Failed to clear cart"),
+    });
   };
 
   return (
