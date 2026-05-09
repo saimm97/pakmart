@@ -121,7 +121,7 @@ export function Header() {
 
             {/* Actions */}
             <div className="flex items-center gap-2 lg:gap-3 flex-shrink-0">
-              <button className="flex items-center gap-2 cursor-pointer group p-1.5 rounded-xl hover:bg-white/5 transition-colors">
+              <Link href="/signin" className="flex items-center gap-2 cursor-pointer group p-1.5 rounded-xl hover:bg-white/5 transition-colors">
                 <div className="w-8 h-8 rounded-full bg-white/6 border border-white/8 flex items-center justify-center group-hover:bg-emerald-900/50 group-hover:border-emerald-700/30 transition-colors">
                   <User className="w-4 h-4 text-[#8A93B4] group-hover:text-emerald-400 transition-colors" strokeWidth={1.5} />
                 </div>
@@ -129,7 +129,7 @@ export function Header() {
                   <p className="text-[#5A6480] text-[10px] uppercase tracking-wider font-semibold leading-none mb-0.5">Sign In</p>
                   <p className="font-semibold text-[#EEF1FA] leading-none text-[13px] group-hover:text-emerald-400 transition-colors">Account</p>
                 </div>
-              </button>
+              </Link>
 
               <button className="hidden sm:flex w-8 h-8 rounded-full bg-white/6 border border-white/8 items-center justify-center hover:bg-red-900/40 hover:border-red-700/30 hover:text-red-400 transition-colors text-[#8A93B4] flex-shrink-0">
                 <Heart className="w-4 h-4" strokeWidth={1.5} />
