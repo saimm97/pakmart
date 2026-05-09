@@ -12,6 +12,8 @@ import { Cart } from "@/pages/Cart";
 import { Checkout } from "@/pages/Checkout";
 import { OrderConfirmation } from "@/pages/OrderConfirmation";
 import { Deals } from "@/pages/Deals";
+import { SignIn } from "@/pages/SignIn";
+import { Register } from "@/pages/Register";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +43,8 @@ function Router() {
           {params => <OrderConfirmation id={params.id} />}
         </Route>
         <Route path="/deals" component={Deals} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/register" component={Register} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
